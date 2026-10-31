@@ -36,44 +36,29 @@ ingredients_list = st.multiselect(
 
 # Display nutrition information for selected fruits
 if ingredients_list:
-
     ingredients_string = ''
 
-    fruit_api_names = {
-        "Apples": "apple",
-        "Apple": "apple",
-        "Cantaloupe": "cantaloupe",
-        "Figs": "fig",
-        "Fig": "fig",
-        "Watermelon": "watermelon",
-        "Guava": "guava"
-    }
-
     for fruit_chosen in ingredients_list:
-
         ingredients_string += fruit_chosen + ' '
 
-        fruit_name = fruit_api_names.get(
-            fruit_chosen,
-            fruit_chosen.lower()
-        )
-
-        st.subheader(f"Nutrition Information: {fruit_chosen}")
+        # Display nutrition information for each selected fruit
+        st.subheader(fruit_chosen + ' Nutrition Information')
 
         try:
             smoothiefroot_response = requests.get(
-                "https://my.smoothiefroot.com/api/fruit/" + fruit_name,
-                timeout=10
+                "https://my.smoothiefroot.com/api/fruit/" + fruit_chosen.lower()
             )
 
-            if smoothiefroot_response.status_code == 200:
-                sf_df = st.dataframe(
-                    data=smoothiefroot_response.json(),
-                    use_container_width=True
-                )
-            else:
+            sf_data = smoothiefroot_response.json()
+
+            if "error" in sf_data:
                 st.warning(
                     f"Nutrition information is unavailable for {fruit_chosen}."
+                )
+            else:
+                st.dataframe(
+                    data=sf_data,
+                    use_container_width=True
                 )
 
         except requests.exceptions.RequestException:
