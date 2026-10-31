@@ -62,8 +62,8 @@ if ingredients_list:
             ).select("SEARCH_ON").collect()[0]["SEARCH_ON"]
             st.write('The search value for ', fruit_chosen, ' is ', search_on, '.')
             smoothiefroot_response = requests.get(
-                "https://my.smoothiefroot.com/api/fruit/" + search_on.lower(),
-                timeout=10
+            f"https://my.smoothiefroot.com/api/fruit/{search_on.lower()}",
+            timeout=10
             )
 
             smoothiefroot_response.raise_for_status()
