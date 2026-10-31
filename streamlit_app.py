@@ -33,10 +33,10 @@ my_dataframe = session.table(
 # Convert Snowpark DataFrame to Pandas DataFrame
 pd_df = my_dataframe.to_pandas()
 
-st.dataframe(pd_df)
+#st.dataframe(pd_df)
 
 # Temporarily stop the app to inspect the dataframe
-st.stop()
+#st.stop()
 
 # Allow customers to select up to 5 fruits
 ingredients_list = st.multiselect(
@@ -60,7 +60,7 @@ if ingredients_list:
             ).filter(
                 col("FRUIT_NAME") == fruit_chosen
             ).select("SEARCH_ON").collect()[0]["SEARCH_ON"]
-
+            st.write('The search value for ', fruit_chosen, ' is ', search_on, '.')
             smoothiefroot_response = requests.get(
                 "https://my.smoothiefroot.com/api/fruit/" + search_on.lower(),
                 timeout=10
