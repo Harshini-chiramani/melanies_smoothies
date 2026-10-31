@@ -42,10 +42,15 @@ if ingredients_list:
 
         # Display nutrition information for each selected fruit
         st.subheader(fruit_chosen + ' Nutrition Information')
-
         try:
+            search_on = session.table(
+                "smoothies.public.fruit_options"
+            ).filter(
+                col("FRUIT_NAME") == fruit_chosen
+            ).select("SEARCH_ON").collect()[0]["SEARCH_ON"]
+
             smoothiefroot_response = requests.get(
-                "https://my.smoothiefroot.com/api/fruit/" + fruit_chosen.lower(),
+                "https://my.smoothiefroot.com/api/fruit/" + search_on.lower(),
                 timeout=10
             )
 
