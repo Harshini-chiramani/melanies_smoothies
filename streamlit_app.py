@@ -1,4 +1,3 @@
-
 # Import python packages
 import streamlit as st
 from snowflake.snowpark.functions import col
@@ -46,9 +45,11 @@ if ingredients_list:
 
         try:
             smoothiefroot_response = requests.get(
-                "https://my.smoothiefroot.com/api/fruit/" + fruit_chosen.lower()
+                "https://my.smoothiefroot.com/api/fruit/" + fruit_chosen.lower(),
+                timeout=10
             )
 
+            smoothiefroot_response.raise_for_status()
             sf_data = smoothiefroot_response.json()
 
             if "error" in sf_data:
