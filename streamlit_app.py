@@ -96,7 +96,7 @@ if ingredients_list:
     if time_to_insert:
         session.sql(
             my_insert_stmt,
-            params=[ingredients_string.strip(), name_on_order]
+            params=[ingredients_string, name_on_order]
         ).collect()
 
         st.success(
